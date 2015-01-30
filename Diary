@@ -1,0 +1,4 @@
+Development Diary
+
+27.12.2014
+changed storage of tiles from int[][] to HashMap<Point, Integer> and put the generation in a loop - better Memory during creation
