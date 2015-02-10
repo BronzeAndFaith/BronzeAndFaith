@@ -15,7 +15,7 @@ public class DropScreen extends InventoryBase{
 	
 	protected Screen use(Item item) {
 		System.out.println("dropping");
-		player.drop(item);
+		player.dropItem(item);
         return null;
     }
 	

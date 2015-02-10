@@ -1,6 +1,5 @@
 import java.awt.event.KeyEvent;
 
-
 public abstract class DirectionBaseScreen implements Screen{
 	
 	protected Human player;
@@ -13,7 +12,6 @@ public abstract class DirectionBaseScreen implements Screen{
 	public DirectionBaseScreen(Human player, String caption){
 		this.player = player;
 		this.caption = caption;
-
 	}
 	
 	public void displayOutput(RoguePanel roguepanel){
@@ -22,8 +20,6 @@ public abstract class DirectionBaseScreen implements Screen{
 	}
 	
 	public Screen respondToUserInput(KeyEvent key){
-		
-
 		
 		int px = player.getX();
 		int py = player.getX();
@@ -42,8 +38,6 @@ public abstract class DirectionBaseScreen implements Screen{
 		enterWorldCoordinate(player.getX() + x, player.getY() + y);
 		return this;
 	}
-	
-	
 	
 	public boolean isAcceptable(int x, int y){
 		return true;

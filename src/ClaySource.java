@@ -4,15 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 
-/**
- * A spot of clay in the nature. Can vary in size and abundance.
- * Spots of clay can be harvested until none is left. 
- * After that, the pit needs to be deepened to enable harvesting again.
- * 
- * 
- * @author Jeremy
- *
- */
 public class ClaySource {
 
 	Point origin; // center Point for distance calculation
@@ -45,7 +36,6 @@ public class ClaySource {
 		for(Point clay:clayPoints){
 			clayAmount.put(clay,value);
 			System.out.println(clay+":   "+value);
-
 		}
 	}
 	

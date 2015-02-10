@@ -18,7 +18,6 @@ public class GameScreen implements Screen{
 	
 	private Screen subscreen;
 	
-	public int scrollX, scrollY;
 	
 	private List<String> messages;
 	
@@ -30,7 +29,7 @@ public class GameScreen implements Screen{
 		treeBuilder = new TreeBuilder(world);
 		this.messages = new ArrayList<String>();
 		
-		player = creatureBuilder.newPlayer(5, 5, messages);
+		player = creatureBuilder.newPlayerRandomLocation(messages);
 		creatureBuilder.newNPCDummy(8, 5);
 		itemBuilder.newBranch(10, 10, Material.WOOD_MAPLE);
 		itemBuilder.newBranch(11,10, Material.WOOD_MAPLE);
@@ -119,27 +118,8 @@ public class GameScreen implements Screen{
 		
 	}
 	
+	public int scrollX, scrollY;
 
-	public void drawMap(RoguePanel roguepanel) {
-		roguepanel.clear();
-		for (int x = 0; x < roguepanel.widthInTiles()&& x <world.map.getWidth(); x++) {
-			for (int y = 0; y < roguepanel.heightInTiles()&& y < world.map.getHeight(); y++) {
-				int sX = x+scrollX;
-				int sY = y+scrollY;
-				roguepanel.drawTile(x, y, world.getTile(sX,sY));
-				roguepanel.drawCreature(x, y,world.creatureImage(sX, sY));
-				roguepanel.drawItem(x, y, world.itemImage(sX, sY));
-				roguepanel.drawStructure(x, y, world.structureImage(sX, sY));
-			}
-		}
-	}
-	
-	public void writeMessages(RoguePanel roguepanel){
-		if (!messages.isEmpty()){
-			roguepanel.writeMessage(messages);
-		}
-	}
-	
 	public void viewPosition(int x, int y) {
 		scrollX=x;
 		scrollY=y;
@@ -160,6 +140,28 @@ public class GameScreen implements Screen{
 	public int getScrollY() {
 		return Math.max(0, Math.min(player.getY() - heightInTiles / 2, world.height() - heightInTiles));
 	}
+	
+	public void drawMap(RoguePanel roguepanel) {
+		roguepanel.clear();
+		for (int x = 0; x < roguepanel.widthInTiles()&& x <world.map.getWidth(); x++) {
+			for (int y = 0; y < roguepanel.heightInTiles()&& y < world.map.getHeight(); y++) {
+				int sX = x+scrollX;
+				int sY = y+scrollY;
+				roguepanel.drawTile(x, y, world.getGameTileIndex(sX,sY));
+				roguepanel.drawCreature(x, y,world.creatureImage(sX, sY));
+				roguepanel.drawItem(x, y, world.itemImage(sX, sY));
+				roguepanel.drawStructure(x, y, world.structureImage(sX, sY));
+			}
+		}
+	}
+	
+	public void writeMessages(RoguePanel roguepanel){
+		if (!messages.isEmpty()){
+			roguepanel.writeMessage(messages);
+		}
+	}
+	
+
 
 
 

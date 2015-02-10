@@ -16,13 +16,13 @@ public class PickupScreen extends WorldInventoryBasedScreen{
 	}
 	
 	protected Screen use(Item item) {
-        player.pickup(item);
+        player.pickupItem(item);
         return null;
     }
 	
 	protected Screen use(Item[] items) {
 		for (Item i: items)
-			player.pickup(i);
+			player.pickupItem(i);
         return null;
     }
 

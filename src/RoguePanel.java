@@ -116,8 +116,8 @@ public class RoguePanel extends JPanel{
 				int py = y*Main.TILEHEIGHT;
 				
 				//set up source coords
-				int sx=(image%20)*Main.TILEWIDTH; //floor
-		        int sy=(image/20)*Main.TILEHEIGHT;
+				int sx=(image%10)*Main.TILEWIDTH; //floor
+		        int sy=(image/10)*Main.TILEHEIGHT;
 		        int ix=(itemImage%20)*Main.TILEWIDTH; //item
 		        int iy=(itemImage/20)*Main.TILEHEIGHT;
 		        int cx=(creatureImage%20)*Main.TILEWIDTH; //creature
@@ -136,7 +136,6 @@ public class RoguePanel extends JPanel{
 				if (structureImage != 0 ){
 					panelGraphics.drawImage(tree,px,py,px+Main.TILEWIDTH,py+Main.TILEHEIGHT,stx,sty,stx+Main.TILEWIDTH,sty+Main.TILEHEIGHT,null);
 				}
-				
 			}
 		}
 		
@@ -168,6 +167,7 @@ public class RoguePanel extends JPanel{
 		text.clear();
 	}
 
+	//TODO remove this one
 	public RoguePanel drawTile(int x, int y, Tile flag) {
 
 		if(x<Main.MAPWIDTH-1 && x >= 0 && y >= 0 && y<Main.MAPHEIGHT-1){
@@ -175,6 +175,18 @@ public class RoguePanel extends JPanel{
 			}
 		else{
 			tiles[x][y] = Tile.BOUNDS.imageIndex();
+			}
+		return this;
+	}
+	
+	//TODO this is the new one
+	public RoguePanel drawTile(int x, int y, int imageIndex) {
+
+		if(x<Main.MAPWIDTH-1 && x >= 0 && y >= 0 && y<Main.MAPHEIGHT-1){
+			tiles[x][y]=imageIndex;
+			}
+		else{
+			tiles[x][y] = 0;	//TODO make Index 0 in image file a bounds tile
 			}
 		return this;
 	}
@@ -214,7 +226,7 @@ public class RoguePanel extends JPanel{
 	public void clear(){
 		for (int x = 0; x < widthInTiles()&& x <Main.MAPWIDTH; x++) {
 			for (int y = 0; y < heightInTiles()&& y < Main.MAPHEIGHT; y++) {
-				drawTile(x, y, Tile.BOUNDS);
+				drawTile(x, y, 0);
 				drawCreature(x, y, 0);
 				drawItem(x, y, 0);
 				drawStructure(x,y,0);

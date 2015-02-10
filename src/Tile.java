@@ -44,18 +44,18 @@ public enum Tile {
 	private final char glyph;
 	public char glyph(){return glyph;}
 	
-	private final boolean isBlocked;
-	public boolean isBlocked(){return isBlocked;}
+	private final boolean isWater;
+	public boolean isWater(){return isWater;}
 	
 	private final int imageIndex;
 	public int imageIndex(){return imageIndex;}
 
-	Tile(int flag, String name, Color color, char glyph, boolean isBlocked, int imageIndex ){
+	Tile(int flag, String name, Color color, char glyph, boolean isWater, int imageIndex ){
 		this.flag = flag;
 		this.tileName = name;
 		this.color = color;
 		this.glyph = glyph;
-		this.isBlocked = isBlocked;
+		this.isWater = isWater;
 		this.imageIndex = imageIndex;
 		
 	}

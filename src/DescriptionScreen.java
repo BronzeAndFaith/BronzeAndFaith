@@ -11,7 +11,6 @@ public class DescriptionScreen implements Screen{
 	public void displayOutput(RoguePanel roguepanel) {
 		roguepanel.clear();
 		roguepanel.write(description, 1, 1);
-
 	}
 
 	public Screen respondToUserInput(KeyEvent e) {

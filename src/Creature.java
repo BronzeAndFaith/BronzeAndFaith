@@ -4,8 +4,6 @@ import java.util.List;
 
 public class Creature {
 
-	
-	
 	private int x,y;
 	public int getX(){return this.x;}
 	public int getY(){return this.y;}
@@ -94,10 +92,7 @@ public class Creature {
 		updateCoverList();
 	}
 	
-	/**Move the creature by the specified amount, can take negative values
-	 * @param x add x to the current coordinate
-	 * @param y add y to the current coordinate
-	 * */
+
 	public void move(int x, int y){
 		int mx = this.x+x;
 		int my = this.y+y;
@@ -111,10 +106,8 @@ public class Creature {
 		}
 	}
 	
-	/**Pickup item from creature's location
-	 * Will give message when inventory is full
-	 * */
-	public void pickup(){
+
+	public void pickupFromOwnLocation(){
         Item item = world.item(x, y);
      
         if (inventory.isFull() || item == null){
@@ -123,25 +116,22 @@ public class Creature {
             world.remove(item);
             inventory.add(item);
         }
-		updateCoverList();
+		//updateCoverList();
 
     }
 	
-	/**Put item into creature's inventory*/
-	public void pickup(Item item){
- 
-        if (inventory.isFull() || item == null /*|| inventory.noPlace(item.weight())*/){
+
+	public void pickupItem(Item item){
+         if (inventory.isFull() || item == null){
         	System.out.println("inventory full");
         } else {
             world.remove(item);
             inventory.add(item);
         }
-		updateCoverList();
-
+		//updateCoverList();
     }
 	
-	/**Drop item at current location*/
-	public void drop(Item item){
+	public void dropItem(Item item){
 		unequip(item);
 		inventory.remove(item);
 		world.addItem(item, x, y);
@@ -153,12 +143,7 @@ public class Creature {
 	/**Puts Item into appropriate slot. If not already in Inventory, it goes there.*/
 	public void equip(Item item){
 		if(!inventory.contains(item)){
-			if(inventory.isFull()){
-				return;
-			} else {
-				world.remove(item);
-				inventory.add(item);
-			}
+			pickupItem(item);
 		}
 		
 		if (item.isWeapon()){
@@ -169,8 +154,6 @@ public class Creature {
 			List<Integer>coverage = item.coverage();
 			int i = 0;
 			for(ArrayList<Item> l : coverZones){
-				
-				
 				if(coverage.contains(i)){
 					if(!l.contains(item)){l.add(item); System.out.println("equipped Item");}
 				}  

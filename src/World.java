@@ -95,9 +95,9 @@ public class World {
 	}
 	
 	public boolean isBlocked(int x, int y){
-		Tile tileFlag = map.getTile(x, y);
+		GameTile tile = GameMap.getGameTile(x, y);
 		Structure struct = getStructure(x,y);
-		if(tileFlag.isBlocked()) return true;
+		if(tile.hasWater) return true;
 		if(struct != null) if(struct.isBlocking()) return true;
 		return false;
 	}
@@ -129,7 +129,7 @@ public class World {
 	
 	public void addItem(Item item, int x, int y){
 		
-		if(!map.isBlocked(x,y)){
+		if(!map.isWater(x,y)){
 			item.setX(x);
 			item.setY(y);
 			items.add(item);
@@ -140,15 +140,27 @@ public class World {
 	
 	private  void initializeMap(){
 		map = new GameMap(Main.MAPWIDTH, Main.MAPHEIGHT, this);
-		//map.fillMap(Tile.FLOOR);
-		map.setTile(20, 20, Tile.WALL);	
 		map.setWorld(this);
-		//map.fillTileBorder(0,0,Main.MAPWIDTH-1, Main.MAPHEIGHT-1, Tile.WALL);
 		System.out.println("Map created");
 	}
 	
 	public Tile getTile(int x, int y){
-		return map.getTile(x, y);
+		return GameMap.getTile(x, y);
+	}
+	
+	public int getGameTileIndex(int x, int y){
+		return GameMap.getGameTileIndex(x, y);
+	}
+	
+	/*
+	 * Get a starting location for the player.
+	 */
+	//TODO create own class as soon as this gets big
+	public Point getStartLocation(){
+		Point p = GameMap.randomHeightPoint(100, 200);
+			if(isBlocked(p.x, p.y))
+				getStartLocation();
+		return p;
 	}
 	
 	protected  void initialize(){

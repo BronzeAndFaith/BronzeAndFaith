@@ -14,8 +14,7 @@ public class Chunk {
 	
 	/**A Chunk collects Point references and has a public origin of its own.
 	 * It is fed by the Map class and is supposed to ease loading, as only chunks around the player are loaded
-	 * 
-	 * 
+	 *  
 	 * @param x  coordinate of origin
 	 * @param y  coordinate of origin
 	 */
@@ -24,10 +23,6 @@ public class Chunk {
 		origin = new Point(x,y);
 	}
 	
-	/** Insert the point coordinates that will be loaded into a List<Point>
-	 *  
-	 * @param p is a Point(int x, int y) from the raw unchunked map
-	 */
 	public void insertPoint(Point p){
 		tiles.add(p);
 	}
