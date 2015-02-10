@@ -116,8 +116,8 @@ public class RoguePanel extends JPanel{
 				int py = y*Main.TILEHEIGHT;
 				
 				//set up source coords
-				int sx=(image%20)*Main.TILEWIDTH; //floor
-		        int sy=(image/20)*Main.TILEHEIGHT;
+				int sx=(image%10)*Main.TILEWIDTH; //floor
+		        int sy=(image/10)*Main.TILEHEIGHT;
 		        int ix=(itemImage%20)*Main.TILEWIDTH; //item
 		        int iy=(itemImage/20)*Main.TILEHEIGHT;
 		        int cx=(creatureImage%20)*Main.TILEWIDTH; //creature

@@ -119,10 +119,10 @@ public class GameMap {
 		mapNoise();
 		drawTerrain();
 		cleanTerrain();
-		for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
-		for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
-		ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(0,0,10);
-		goodSpots = rdc.bestPoints(400, 60);
+		//for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
+		//for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
+		//ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(0,0,10);
+		//goodSpots = rdc.bestPoints(400, 60);
 		
 		//createForest();
 		drawTerrainMap();

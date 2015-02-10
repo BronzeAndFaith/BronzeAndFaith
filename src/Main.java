@@ -21,8 +21,8 @@ public class Main extends JFrame implements KeyListener {
 	public static final int TILEWIDTH = 32;
 	public static final int TILEHEIGHT = 32;
 	
-	public static final int MAPWIDTH = 1024;
-	public static final int MAPHEIGHT = 1024;
+	public static final int MAPWIDTH = 256;
+	public static final int MAPHEIGHT = 256;
 	public static final int CHUNKSIZE = 32;
 
 	public static Image terrain;
