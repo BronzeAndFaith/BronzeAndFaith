@@ -5,6 +5,7 @@ import java.util.List;
 
 import BronzeAndFaith.Content.Building;
 import BronzeAndFaith.Content.Creature;
+import BronzeAndFaith.Game.JobSpace;
 
 
 public class Village {
@@ -22,6 +23,17 @@ public class Village {
 		}
 	}
 	
+	private List<JobSpace> jobs;
+	public List<JobSpace> getJobs(){
+		return jobs;
+	}
+	public void addJob(JobSpace job){
+		jobs.add(job);
+	}
+	public void removeJob(JobSpace job){
+		jobs.remove(job);
+	}
+	
 	private List<Building> buildings;
 	public List<Building> getBuildings(){return buildings;}
 	
@@ -31,5 +43,18 @@ public class Village {
 		inhabitants = new ArrayList<Creature>();
 		buildings = new ArrayList<Building>();
 	}
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+
+        if (obj instanceof Village){
+        	Village v = (Village) obj;
+        	if (v.getVillageCenter() == this.getVillageCenter()){
+        		return true;
+        	}
+        }
+        return false;
+    }
 	
 }

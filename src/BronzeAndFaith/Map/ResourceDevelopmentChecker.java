@@ -77,6 +77,12 @@ public class ResourceDevelopmentChecker {
 		return number;
 	}
 	
+	public int getAllGrassScore(Point p, int range){
+		int number = GameMap.countTilesCircle(p, Tile.FLOOR_GRASS_DEEP, range);
+		number += GameMap.countTilesCircle(p, Tile.FLOOR_GRASS_DRY, range);
+		return number;
+	}
+	
 	
 	
 	public ArrayList<Point> bestPoints(int checks, int numberSpots){

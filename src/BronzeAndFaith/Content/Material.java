@@ -19,7 +19,10 @@ public enum Material {
 	WOOD_YEW("yew", 40, 5, 50, 10),
 	
 	METAL_BRONZE("bronze", 95, 90, 95, 90),
-	METAL_COPPER("copper", 85, 90, 85, 90),
+	METAL_COPPER("copper", 75, 75, 85, 90),
+	METAL_TIN("tin", 65, 65, 70, 75),
+	METAL_SILVER("silver", 85, 90, 85, 90),
+	METAL_GOLD("gold", 75, 95, 85, 95),
 	
 	BONE("bone", 50, 10, 30, 8),
 	
