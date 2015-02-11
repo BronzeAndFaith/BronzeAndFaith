@@ -67,6 +67,16 @@ public class ResourceDevelopmentChecker {
 		return number;
 	}
 	
+	public int getRawRockScore(Point p, int range){
+		int number = GameMap.countTilesCircle(p, Tile.FLOOR_ROCK_RAW, range);
+		return number;
+	}
+	
+	public int getSmoothRockScore(Point p, int range){
+		int number = GameMap.countTilesCircle(p, Tile.FLOOR_ROCK_SMOOTH, range);
+		return number;
+	}
+	
 	
 	
 	public ArrayList<Point> bestPoints(int checks, int numberSpots){

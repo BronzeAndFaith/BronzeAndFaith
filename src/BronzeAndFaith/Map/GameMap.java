@@ -11,6 +11,8 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import BronzeAndFaith.Content.Material;
+import BronzeAndFaith.Game.BronzeMath;
 import BronzeAndFaith.Game.Main;
 import BronzeAndFaith.Game.World;
 
@@ -39,6 +41,7 @@ public class GameMap {
 	public static final int RIVER_MAXLENGTH=8000; //multiplied with size of map, iterations for river pathfinding
 	public static final int SWAMP_COUNT = 2;
 	public static final int CLAY_COUNT = 10;
+	public static final int COPPER_COUNT = 10;
 
 	private static int width;
 	private static int height;
@@ -53,6 +56,7 @@ public class GameMap {
 	private static List<River> rivers;
 	private static List<ClaySource> claySources;
 	private static List<Swamp> swamps;
+	private static List<MetalSource> metals;
 	private static List<Point> points;
 	private static List<Point> chunkAnchors;
 	private static List<Chunk> chunks;
@@ -100,6 +104,7 @@ public class GameMap {
 		goodSpots = new ArrayList<Point>();
 		swamps = new ArrayList<Swamp>();
 		claySources = new ArrayList<ClaySource>();
+		metals = new ArrayList<MetalSource>();
 		GameMap.width = width;
 		GameMap.height = height;
 		//get longest dimension
@@ -131,6 +136,7 @@ public class GameMap {
 		for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
 		for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
 		for(int i = 0; i<CLAY_COUNT;i++) {createClay();}
+		for(int i = 0; i<COPPER_COUNT;i++) {createCopperOre();}
 		//ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(0,0,10);
 		//goodSpots = rdc.bestPoints(400, 60);
 		
@@ -302,6 +308,17 @@ public class GameMap {
 	public static int getClay(int x, int y){
 		GameTile gt = getGameTile(x,y);
 		return gt.getClayAmount();
+	}
+	
+	public static void setOre(int x, int y, int amount, Material material){
+		GameTile gt = getGameTile(x,y);
+		gt.setOreAmount(amount);
+		gt.setOreMaterial(material);
+	}
+	
+	public static int getOre(int x, int y){
+		GameTile gt = getGameTile(x,y);
+		return gt.getOreAmount();
 	}
 
 
@@ -601,6 +618,14 @@ public class GameMap {
 		ClaySource clay = new ClaySource(p,30);
 		claySources.add(clay);
 		
+	}
+	
+	private void createCopperOre(){
+		System.out.println("Creating Copper Ore Vein");
+		Point p = randomHeightPoint(180,250);
+		int randomInt = BronzeMath.randInt(20, 50);
+		MetalSource copper = new CopperSource(p, randomInt);
+		metals.add(copper);
 	}
 	
 	private void sprinkleTileRect(Point p, Tile t, int range, int density){

@@ -1,6 +1,7 @@
 package BronzeAndFaith.Map;
 import java.awt.Point;
 
+import BronzeAndFaith.Content.Material;
 import BronzeAndFaith.Game.BronzeMath;
 
 
@@ -29,6 +30,7 @@ public class GameTile extends Point{
 	public boolean isBlocked = false;
 	public boolean hasWater = false;
 	public boolean hasClay = false;
+	public boolean hasMetal = false;
 	public boolean isInside = false;
 	
 	private int clayAmount = 0;
@@ -39,6 +41,28 @@ public class GameTile extends Point{
 		clayAmount = amount;
 		if(clayAmount<0)
 			clayAmount = 0;
+	}
+	
+	
+	private Material oreMaterial;
+	public Material getOreMaterial(){
+		if(hasMetal){
+			return oreMaterial;
+		}
+		else return null;
+	}
+	public void setOreMaterial(Material material){
+		this.oreMaterial = material;
+	}
+	
+	private int oreAmount = 0;
+	public int getOreAmount(){
+		return oreAmount;
+	}
+	public void setOreAmount(int amount){
+		oreAmount = amount;
+		if(oreAmount<0)
+			oreAmount = 0;
 	}
 	
 	private static Tile tileType;
