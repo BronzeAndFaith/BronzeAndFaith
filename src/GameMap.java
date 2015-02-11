@@ -151,6 +151,13 @@ public class GameMap {
 			return matrix.get(p);
 		} else return Tile.BOUNDS;
 	}
+	
+	public static GameTile getGameTile(int x, int y) {	
+		Point p = new Point(x,y);
+		if(tileMap.containsKey(p)){
+			return tileMap.get(p);
+		} else return null;
+	}
 
 	/**
 	 * Get blocking status of the target Tile
@@ -160,8 +167,13 @@ public class GameMap {
 	 * @return Returns true if Tile type blocks by definition
 	 */
 	public boolean isBlocked(int x, int y) {
-		Tile tile = getTile(x, y);
-		return tile.isBlocked();
+		GameTile tile = getGameTile(x, y);
+		return tile.isBlocked;
+	}
+	
+	public static int getGameTileIndex(int x, int y){
+		GameTile t = getGameTile(x,y);
+		return t.getImageIndex();
 	}
 	
 	/**

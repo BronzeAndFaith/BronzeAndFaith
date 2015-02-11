@@ -129,7 +129,7 @@ public class World {
 	
 	public void addItem(Item item, int x, int y){
 		
-		if(!map.isWater(x,y)){
+		if(!map.isBlocked(x,y)){
 			item.setX(x);
 			item.setY(y);
 			items.add(item);
