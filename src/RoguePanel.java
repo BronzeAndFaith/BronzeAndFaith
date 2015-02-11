@@ -166,27 +166,13 @@ public class RoguePanel extends JPanel{
 		messages.clear();
 		text.clear();
 	}
-
-	//TODO remove this one
-	public RoguePanel drawTile(int x, int y, Tile flag) {
-
-		if(x<Main.MAPWIDTH-1 && x >= 0 && y >= 0 && y<Main.MAPHEIGHT-1){
-			tiles[x][y]=flag.imageIndex();
-			}
-		else{
-			tiles[x][y] = Tile.BOUNDS.imageIndex();
-			}
-		return this;
-	}
 	
-	//TODO this is the new one
 	public RoguePanel drawTile(int x, int y, int imageIndex) {
-
 		if(x<Main.MAPWIDTH-1 && x >= 0 && y >= 0 && y<Main.MAPHEIGHT-1){
 			tiles[x][y]=imageIndex;
 			}
 		else{
-			tiles[x][y] = 0;	//TODO make Index 0 in image file a bounds tile
+			tiles[x][y] = 0;
 			}
 		return this;
 	}

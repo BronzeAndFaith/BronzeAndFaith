@@ -803,26 +803,39 @@ public class GameMap {
 		for(Point p:points){
 			int x = p.x;
 			int y = p.y;
+			GameTile gt;
 			float height= getHeight(x,y);
 			Tile flag;
 			if (height > THRESHOLD_MOUNTAIN) {
 				flag = Tile.FLOOR_ROCK_RAW;
+				gt = GameTile.GameTileRawRock(x,y);
+				
 			} else if (height > THRESHOLD_HILL) {
 				flag = Tile.FLOOR_ROCK_SMOOTH;
-
+				gt = GameTile.GameTileSmoothRock(x,y);
+				
 			} else if (height > THRESHOLD_DRYGRASS) {
 				flag = Tile.FLOOR_GRASS_DRY;
+				gt = GameTile.GameTileDryGrass(x,y);
+
 
 			} else if (height > THRESHOLD_WETGRASS) {
 				flag = Tile.FLOOR_GRASS_DEEP;
+				gt = GameTile.GameTileDeepGrass(x,y);
+
 
 			} else if (height > THRESHOLD_SHALLOWWATER) {
 				flag = Tile.WATER_SHALLOW;
+				gt = GameTile.GameTileShallowWater(x,y);
+
 
 			} else {
 				flag = Tile.WATER_DEEP;
+				gt = GameTile.GameTileDeepWater(x,y);
+
 			}
 			matrix.put(p, flag);
+			tileMap.put(p, gt);
 		}
 	}
 	

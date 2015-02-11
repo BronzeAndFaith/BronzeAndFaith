@@ -18,7 +18,6 @@ public class GameScreen implements Screen{
 	
 	private Screen subscreen;
 	
-	
 	private List<String> messages;
 	
 	public GameScreen(){
