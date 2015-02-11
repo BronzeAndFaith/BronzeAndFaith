@@ -122,10 +122,10 @@ public class GameMap {
 		mapNoise();
 		drawTerrain();
 		cleanTerrain();
-		for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
+		//for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
 		//for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
-		ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(0,0,10);
-		goodSpots = rdc.bestPoints(400, 60);
+		//ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(0,0,10);
+		//goodSpots = rdc.bestPoints(400, 60);
 		
 		//createForest();
 		drawTerrainMap();
@@ -133,7 +133,7 @@ public class GameMap {
 		markGoodSpots();
 		fillChunks();
 		saveImage();
-						
+		
 	}
 	
 
@@ -147,17 +147,9 @@ public class GameMap {
 	 */
 	public static Tile getTile(int x, int y) {	
 		Point p = new Point(x,y);
-		if(tileMap.containsKey(p)){
-			return tileMap.get(p).getTileType();
+		if(matrix.containsKey(p)){
+			return matrix.get(p);
 		} else return Tile.BOUNDS;
-	}
-	
-	public static GameTile getGameTile(int x, int y){
-		Point p = new Point(x,y);
-		if(tileMap.containsKey(p)){
-			return tileMap.get(p);
-		} else return null;
-		
 	}
 
 	/**
@@ -167,9 +159,9 @@ public class GameMap {
 	 * @param y coordinate
 	 * @return Returns true if Tile type blocks by definition
 	 */
-	public boolean isWater(int x, int y) {
+	public boolean isBlocked(int x, int y) {
 		Tile tile = getTile(x, y);
-		return tile.isWater();
+		return tile.isBlocked();
 	}
 	
 	/**
@@ -178,14 +170,6 @@ public class GameMap {
 	 * @param flag Tile type
 	 */
 	public void fillMap(Tile flag) {
-		for (int w = 0; w < width; w++) {
-			for (int h = 0; h < height; h++) {
-				setTile(w, h, flag);
-			}
-		}
-	}
-	
-	public void fillMap(GameTile flag) {
 		for (int w = 0; w < width; w++) {
 			for (int h = 0; h < height; h++) {
 				setTile(w, h, flag);
@@ -279,17 +263,6 @@ public class GameMap {
 		}
 
 	}
-	
-	void setTile(int x, int y, GameTile tile) {
-		if (x > width || y > height || x < 0 || y < 0)
-			return;
-
-		Point p = new Point(x, y);
-		if (p != null) {
-			tileMap.put(p, tile);
-		}
-
-	}
 
 
 
@@ -367,8 +340,8 @@ public class GameMap {
 			}
 		}
 		normalizeHeightMap();
+		
 	}
-
 
 	private void makeIsland(int x, int y){
 		float f = distanceToCenter(x,y);
@@ -403,7 +376,7 @@ public class GameMap {
 	
 		for (i = 0; i < 3; i++) {
 			for (j = 0; j < 3; j++) {
-				temp_dis = BronzeMath.euclideanSquared(x, y, points[i][j][0],
+				temp_dis = euclideanSquared(x, y, points[i][j][0],
 						points[i][j][1]);
 	
 				if (temp_dis < distance1) {
@@ -435,12 +408,12 @@ public class GameMap {
 		}
 
 		// get bottom left corner of simplex in skewed space
-		skew_value = (x + y) * BronzeMath.general_skew;
+		skew_value = (x + y) * general_skew;
 		cornerbx = myFloor(x + skew_value);
 		cornerby = myFloor(y + skew_value);
 
 		// get distance from bottom corner in normal space
-		unskew_value = (float) (cornerbx + cornerby) * BronzeMath.general_unskew;
+		unskew_value = (float) (cornerbx + cornerby) * general_unskew;
 		disbx = x - (float) cornerbx + unskew_value;
 		disby = y - (float) cornerby + unskew_value;
 
@@ -458,11 +431,11 @@ public class GameMap {
 		cornerty = 1 + cornerby;
 
 		// get distance from two other corners
-		dismx = disbx - (float) (cornermx - cornerbx) + BronzeMath.general_unskew;
-		dismy = disby - (float) (cornermy - cornerby) + BronzeMath.general_unskew;
+		dismx = disbx - (float) (cornermx - cornerbx) + general_unskew;
+		dismy = disby - (float) (cornermy - cornerby) + general_unskew;
 
-		distx = disbx - 1.0f + BronzeMath.general_unskew + BronzeMath.general_unskew;
-		disty = disby - 1.0f + BronzeMath.general_unskew + BronzeMath.general_unskew;
+		distx = disbx - 1.0f + general_unskew + general_unskew;
+		disty = disby - 1.0f + general_unskew + general_unskew;
 
 		// get gradient indices
 		gradb = permutations[(cornerbx + permutations[cornerby & length - 1])
@@ -478,7 +451,7 @@ public class GameMap {
 			noiseb = 0.0f;
 		else
 			noiseb = (float) Math.pow(tempdis, 4.0f)
-					* BronzeMath.dotproduct(gradients[gradb], disbx, disby);
+					* dotproduct(gradients[gradb], disbx, disby);
 
 		// middle corner
 		tempdis = 0.5f - dismx * dismx - dismy * dismy;
@@ -486,7 +459,7 @@ public class GameMap {
 			noisem = 0.0f;
 		else
 			noisem = (float) Math.pow(tempdis, 4.0f)
-					* BronzeMath.dotproduct(gradients[gradm], dismx, dismy);
+					* dotproduct(gradients[gradm], dismx, dismy);
 
 		// top corner
 		tempdis = 0.5f - distx * distx - disty * disty;
@@ -494,7 +467,7 @@ public class GameMap {
 			noiset = 0.0f;
 		else
 			noiset = (float) Math.pow(tempdis, 4.0f)
-					* BronzeMath.dotproduct(gradients[gradt], distx, disty);
+					* dotproduct(gradients[gradt], distx, disty);
 
 		return (noiseb + noisem + noiset);
 
@@ -507,14 +480,14 @@ public class GameMap {
 
 		float rem_x = x - (float) int_x, rem_y = y - (float) int_y, v1, v2, v3, v4, t1, t2;
 
-		v1 = BronzeMath.randInt(int_x, int_y);
-		v2 = BronzeMath.randInt(int_x + 1, int_y);
-		v3 = BronzeMath.randInt(int_x, int_y + 1);
-		v4 = BronzeMath.randInt(int_x + 1, int_y + 1);
+		v1 = randInt(int_x, int_y);
+		v2 = randInt(int_x + 1, int_y);
+		v3 = randInt(int_x, int_y + 1);
+		v4 = randInt(int_x + 1, int_y + 1);
 
-		t1 = BronzeMath.linear(v1, v2, rem_x);
-		t2 = BronzeMath.linear(v3, v4, rem_x);
-		return (BronzeMath.linear(t1, t2, rem_y));
+		t1 = linear(v1, v2, rem_x);
+		t2 = linear(v3, v4, rem_x);
+		return (linear(t1, t2, rem_y));
 
 	}
 
@@ -570,7 +543,7 @@ public class GameMap {
 		River r = new River(start,end,RIVER_MAXLENGTH*length, heightMap);
 		ArrayList<Point> riverP = r.river();
 		for(Point p : riverP){
-			Tile t = tileMap.get(p).getTileType();
+			Tile t = matrix.get(p);
 			if(t != Tile.WATER_DEEP && t!= Tile.WATER_SHALLOW)
 				matrix.put(p, Tile.WATER_RIVER);
 				riverPoints.add(p);
@@ -588,13 +561,15 @@ public class GameMap {
 		acceptableTiles.add(Tile.FLOOR_FOREST_RAW);
 		acceptableTiles.add(Tile.FLOOR_GRASS_DEEP);
 		acceptableTiles.add(Tile.FLOOR_GRASS_DRY);
-	
+		
+		
+		
 	}
 	
 	private void sprinkleTileRect(Point p, Tile t, int range, int density){
 		ArrayList<Point> points = pointsInRectRange(p, range);
 		for(Point target : points){
-		int chance = BronzeMath.randInt(0,(int)(density));
+		int chance = randInt(0,(int)(density));
 			if(chance == 0){
 				setTile(target.x, target.y, t);
 			}
@@ -613,7 +588,7 @@ public class GameMap {
 	public static ArrayList<Point> getSprinkle(Point center, int range, int density){
 		ArrayList<Point> points = pointsInCircleRange(center, range);
 		for(Point target : points){
-		int chance = BronzeMath.randInt(0,(int)(density));
+		int chance = randInt(0,(int)(density));
 			if(chance == 0){
 				points.add(target);
 			}
@@ -797,15 +772,19 @@ public class GameMap {
 		Point p = start;
 		
 		for(int i = 0; i<iterations; i++){
-			currentSplash = pointsInCircleRange(p, BronzeMath.randInt(1,size));
+			currentSplash = pointsInCircleRange(p, randInt(1,size));
 			randomExpansion.addAll(currentSplash);
-			int randomInt = BronzeMath.randInt(0,currentSplash.size()-1);
+			int randomInt = randInt(0,currentSplash.size()-1);
 			p = currentSplash.get(randomInt);
 		}
 
 		return randomExpansion;
 	}
 	
+	
+	
+	
+
 	//assign flags to terrain based on heightmap
 	private void drawTerrain() {
 		System.out.println("Assigning Tiles ...");
@@ -814,33 +793,24 @@ public class GameMap {
 			int y = p.y;
 			float height= getHeight(x,y);
 			Tile flag;
-			GameTile gt;
 			if (height > THRESHOLD_MOUNTAIN) {
-				gt = GameTile.GameTileRawRock(x,y);
 				flag = Tile.FLOOR_ROCK_RAW;
-			} 
-			else if (height > THRESHOLD_HILL) {
+			} else if (height > THRESHOLD_HILL) {
 				flag = Tile.FLOOR_ROCK_SMOOTH;
-				gt = GameTile.GameTileSmoothRock(x,y);
-			} 
-			else if (height > THRESHOLD_DRYGRASS) {
+
+			} else if (height > THRESHOLD_DRYGRASS) {
 				flag = Tile.FLOOR_GRASS_DRY;
-				gt = GameTile.GameTileDryGrass(x,y);
-			} 
-			else if (height > THRESHOLD_WETGRASS) {
+
+			} else if (height > THRESHOLD_WETGRASS) {
 				flag = Tile.FLOOR_GRASS_DEEP;
-				gt = GameTile.GameTileDeepGrass(x,y);
-			} 
-			else if (height > THRESHOLD_SHALLOWWATER) {
+
+			} else if (height > THRESHOLD_SHALLOWWATER) {
 				flag = Tile.WATER_SHALLOW;
-				gt = GameTile.GameTileShallowWater(x,y);
-			} 
-			else {
+
+			} else {
 				flag = Tile.WATER_DEEP;
-				gt = GameTile.GameTileDeepWater(x,y);
 			}
-			gameTiles.add(gt);
-			tileMap.put(p, gt);
+			matrix.put(p, flag);
 		}
 	}
 	
@@ -1006,12 +976,12 @@ public class GameMap {
 				 new Point(x,y-1),
 				 new Point(x,y+1),
 				};
-		return p[BronzeMath.randInt(0,3)];
+		return p[randInt(0,3)];
 	}
 	
 	public Point randomNeighbor8(Point self){
 		Point[] p = neighbor8(self);
-		return p[BronzeMath.randInt(0,p.length-1)];
+		return p[randInt(0,p.length-1)];
 	}
 
 	//return an array of the neighbor Points
@@ -1048,7 +1018,6 @@ public class GameMap {
 		}
 	}
 	
-	//no idea what this does exactly
 	float random(int x, int y, int z) {
 		int r1 = permutations[(x + permutations[(y + permutations[z & length
 				- 1])
@@ -1060,7 +1029,7 @@ public class GameMap {
 
 	static Point randomPoint(){
 		random = new Random();
-		Point p = new Point(BronzeMath.randInt(0,width-1), BronzeMath.randInt(0,height-1));
+		Point p = new Point(randInt(0,width-1), randInt(0,height-1));
 		return p;
 	}
 	
@@ -1090,7 +1059,7 @@ public class GameMap {
 			minHeight = height;
 		}
 		
-		Point p = new Point(BronzeMath.randInt(0,width-1), BronzeMath.randInt(0,height-1));
+		Point p = new Point(randInt(0,width-1), randInt(0,height-1));
 		float height = heightMap.get(p);
 		if(height<minHeight || height>maxHeight){
 			return randomHeightPoint(minHeight, maxHeight);
@@ -1099,6 +1068,44 @@ public class GameMap {
 		
 	}
 
+	public float cosine(float x1, float x2, float a) {
+		double temp;
+		temp = (1.0f - Math.cos(a * (float) Math.PI)) / 2.0f;
+		return (float) (x1 * (1.0f - temp) + x2 * temp);
+	}
+
+	float linear(float x1, float x2, float a) {
+		return (x1 * (1 - a) + x2 * a);
+	}
+
+	private static float general_skew = (((float) Math.sqrt(3.0f) - 1.0f) * 0.5f);
+
+	private static float general_unskew = (3.0f - (float) Math.sqrt(3.0f)) / 6.0f;
+
+	public float dotproduct(float grad[], float x, float y) {
+		return (grad[0] * grad[1] * y);
+	}
+
+	float euclideanSquared(float x1, float y1, float x2, float y2) {
+		float dif_x = x1 - x2, dif_y = y1 - y2;
+	
+		return (dif_x * dif_x + dif_y * dif_y);
+	}
+
+	public static int randInt(int getMin, int getMax) {
+		int min, max;
+		if (getMin > getMax) {
+			max = getMin;
+			min = getMax;
+		} else {
+			min = getMin;
+			max = getMax;
+		}
+		Random rand = new Random();
+		int randomNum = rand.nextInt(max - min + 1) + min;
+		rand = null;
+		return randomNum;
+	}
 	
 	//returns value from 0 to 1 depending on the y value(north/south), 1 is absolute North, 0 is absolute South
 	float northModifier(float heightY){
@@ -1147,7 +1154,7 @@ public class GameMap {
 	private void createSwamp(){
 		System.out.println("Swamp");
 		int it = 200;
-		int randomInt= BronzeMath.randInt(0, riverPoints.size()-1);
+		int randomInt= randInt(0, riverPoints.size()-1);
 		ArrayList<Point> thisSwampFloor = new ArrayList<Point>();
 		ArrayList<Point> thisSwampWater = new ArrayList<Point>();
 
@@ -1158,14 +1165,14 @@ public class GameMap {
 			Tile targetType = getTile(randPoint.x, randPoint.y);
 			if(targetType != Tile.WATER_DEEP && targetType != Tile.FLOOR_ROCK_RAW && targetType != Tile.FLOOR_ROCK_SMOOTH && targetType !=Tile.WATER_SWAMP){
 				if(targetType==Tile.WATER_SHALLOW || targetType==Tile.WATER_RIVER){
-					GameTile gt = GameTile.GameTileSwampWater(randPoint.x, randPoint.y);
-					setTile(randPoint.x, randPoint.y, gt);
+					setTile(randPoint.x, randPoint.y, Tile.WATER_SWAMP);
 					thisSwampWater.add(randPoint);}
 				else
 				{
-					GameTile gt = GameTile.GameTileSwampFloor(randPoint.x, randPoint.y);
-					setTile(randPoint.x, randPoint.y, gt);
+					setTile(randPoint.x, randPoint.y, Tile.FLOOR_SWAMP);
 					thisSwampFloor.add(randPoint);}
+				
+
 			}
 			
 			next = randPoint;
@@ -1177,12 +1184,10 @@ public class GameMap {
 			Tile targetType = getTile(p.x, p.y);
 			if(targetType != Tile.WATER_DEEP && targetType != Tile.FLOOR_ROCK_RAW && targetType != Tile.FLOOR_ROCK_SMOOTH && targetType !=Tile.WATER_SWAMP){
 				if(targetType==Tile.WATER_SHALLOW || targetType==Tile.WATER_RIVER){
-					GameTile gt = GameTile.GameTileSwampWater(p.x, p.y);
-					setTile(p.x, p.y, gt);
+					setTile(p.x, p.y, Tile.WATER_SWAMP);
 					thisSwampWater.add(p);}
 				else{
-					GameTile gt = GameTile.GameTileSwampFloor(p.x, p.y);
-					setTile(p.x, p.y, gt);
+					setTile(p.x, p.y, Tile.FLOOR_SWAMP);
 					thisSwampFloor.add(p);}
 				
 			}
@@ -1190,7 +1195,7 @@ public class GameMap {
 		
 		//add swampwater
 		//Point openSwamp = randomPointType(Tile.FLOOR_SWAMP);
-		Point openSwamp = thisSwampFloor.get(BronzeMath.randInt(0,thisSwampFloor.size()-1));
+		Point openSwamp = thisSwampFloor.get(randInt(0,thisSwampFloor.size()-1));
 		ArrayList<Point> swampWater = randomExpansion(openSwamp,(int)(3*sizeFactor),(int)(8*sizeFactor));
 		for(Point p : swampWater){
 			Tile targetType = getTile(p.x, p.y);
@@ -1206,7 +1211,7 @@ public class GameMap {
 		ArrayList<Point> sprinklePoints = pointsInRectRange(openSwamp, (int)(20*sizeFactor));
 		for(Point target : sprinklePoints){
 			if(getTile(target.x, target.y)==Tile.WATER_SWAMP && !riverPoints.contains(target)){
-				int chance = BronzeMath.randInt(0,2);
+				int chance = randInt(0,2);
 				if(chance == 0){
 					setTile(target.x, target.y, Tile.FLOOR_SWAMP);
 					thisSwampFloor.add(target);
@@ -1219,7 +1224,7 @@ public class GameMap {
 		ArrayList<Point> sprinklePoints2 = pointsInRectRange(openSwamp, (int)(20*sizeFactor));
 		for(Point target : sprinklePoints2){
 			if(getTile(target.x, target.y)==Tile.FLOOR_SWAMP){
-				int chance = BronzeMath.randInt(0,6);
+				int chance = randInt(0,6);
 				if(chance == 0){
 					setTile(target.x, target.y, Tile.WATER_SWAMP);
 					thisSwampFloor.remove(target);
@@ -1230,17 +1235,6 @@ public class GameMap {
 		
 		swampPoints.addAll(thisSwampFloor);
 		swampPoints.addAll(thisSwampWater);
-	}
-	
-	
-	public static int getGameTileIndex(int x, int y) {
-		Point p = new Point(x,y);
-		if (tileMap.containsKey(p)){
-			GameTile gt = tileMap.get(p);
-			return gt.getImageIndex();
-		}
-		else return 0;
-		
 	}
 
 
