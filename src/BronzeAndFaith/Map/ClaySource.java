@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import BronzeAndFaith.Game.BronzeMath;
+
 
 public class ClaySource {
 
 	Point origin; // center Point for distance calculation
 	
-	private List<Point> clayPoints;//points that contain clay
+	private List<Point> clayPoints = new ArrayList<Point>();//points that contain clay
 	public List<Point> getClayPoints(){return clayPoints;}
-	
-	private HashMap<Point, Integer> clayAmount;
-	
+		
 	private int quality; // determines how much clay can be harvested before digging again
 	public int getQuality(){
 		return quality;
@@ -31,16 +31,20 @@ public class ClaySource {
 		this.origin = p;
 		createPoints(p,size);
 	}
+
 	
 	private void createPoints(Point p, int size){
+		System.out.println("Starting ClaySource at " +p.x + ","+p.y);
 		ArrayList<Point> sprinkle = GameMap.getSprinkle(p, size, 2);
 		clayPoints.addAll(sprinkle);
-		int value = calcValue(p,size);
+		
 		for(Point clay:clayPoints){
-			clayAmount.put(clay,value);
-			System.out.println(clay+":   "+value);
+			int quality = calcValue(clay, 20);
+			GameMap.setClay(clay.x, clay.y, quality);
+			System.out.println("Clay Quality: " + quality);
 		}
 	}
+	
 	
 	private int calcValue(Point p, int range){
 		ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(p.x,p.y,20);

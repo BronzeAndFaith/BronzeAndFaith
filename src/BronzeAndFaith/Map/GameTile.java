@@ -31,6 +31,16 @@ public class GameTile extends Point{
 	public boolean hasClay = false;
 	public boolean isInside = false;
 	
+	private int clayAmount = 0;
+	public int getClayAmount(){
+		return clayAmount;
+	}
+	public void setClayAmount(int amount){
+		clayAmount = amount;
+		if(clayAmount<0)
+			clayAmount = 0;
+	}
+	
 	private static Tile tileType;
 	public Tile getTileType() {
 		return tileType;

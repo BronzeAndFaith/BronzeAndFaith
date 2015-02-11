@@ -1,12 +1,10 @@
 package BronzeAndFaith.Map;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -40,6 +38,7 @@ public class GameMap {
 	public static final int RIVER_COUNT = 20;
 	public static final int RIVER_MAXLENGTH=8000; //multiplied with size of map, iterations for river pathfinding
 	public static final int SWAMP_COUNT = 2;
+	public static final int CLAY_COUNT = 10;
 
 	private static int width;
 	private static int height;
@@ -51,12 +50,13 @@ public class GameMap {
 	private int cellOctaves =4; //higher = more difference in terrain height, bigger change for several mountains
 	static float sizeFactor;  //for values that need to be scaled with map size;
 	
+	private static List<River> rivers;
+	private static List<ClaySource> claySources;
+	private static List<Swamp> swamps;
 	private static List<Point> points;
 	private static List<Point> chunkAnchors;
 	private static List<Chunk> chunks;
-	private static List<River> rivers;
-	private static List<ClaySource> clay;
-	private static List<Swamp> swamps;
+
 	private static List<Point> riverPoints;
 	private static List<Point> swampPoints;
 	private static List<Point> clayPoints;
@@ -72,7 +72,6 @@ public class GameMap {
 	
 	private HashMap<Point, Chunk> chunkMap = new HashMap<Point, Chunk>();
 	
-	private static ArrayList<GameTile> gameTiles;
 
 
 	private float min, max;
@@ -99,8 +98,8 @@ public class GameMap {
 		riverPoints = new ArrayList<Point>();
 		swampPoints = new ArrayList<Point>();
 		goodSpots = new ArrayList<Point>();
-		gameTiles = new ArrayList<GameTile>();
 		swamps = new ArrayList<Swamp>();
+		claySources = new ArrayList<ClaySource>();
 		GameMap.width = width;
 		GameMap.height = height;
 		//get longest dimension
@@ -129,8 +128,9 @@ public class GameMap {
 		mapNoise();
 		drawTerrain();
 		cleanTerrain();
-		//for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
-		//for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
+		for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
+		for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
+		for(int i = 0; i<CLAY_COUNT;i++) {createClay();}
 		//ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(0,0,10);
 		//goodSpots = rdc.bestPoints(400, 60);
 		
@@ -292,6 +292,16 @@ public class GameMap {
 			tileMap.put(p, tile);
 		}
 
+	}
+	
+	public static void setClay(int x, int y, int amount){
+		GameTile gt = getGameTile(x,y);
+		gt.setClayAmount(amount);
+	}
+	
+	public static int getClay(int x, int y){
+		GameTile gt = getGameTile(x,y);
+		return gt.getClayAmount();
 	}
 
 
@@ -574,25 +584,22 @@ public class GameMap {
 		ArrayList<Point> riverP = r.river();
 		for(Point p : riverP){
 			Tile t = matrix.get(p);
-			if(t != Tile.WATER_DEEP && t!= Tile.WATER_SHALLOW)
+			if(t != Tile.WATER_DEEP && t!= Tile.WATER_SHALLOW){
+				GameTile gt = GameTile.GameTileRiver(p.x, p.y);
+				tileMap.put(p, gt);
 				matrix.put(p, Tile.WATER_RIVER);
 				riverPoints.add(p);
+				}
 		}
 		rivers.add(r);
 	}
 	
 	private void createClay(){
 		System.out.println("Creating clay source");
-		Point clay = randomHeightPoint(150,250);
-		ArrayList<Tile> acceptableTiles = new ArrayList<Tile>();
-		acceptableTiles.add(Tile.FLOOR_SWAMP);
-		acceptableTiles.add(Tile.FLOOR_FOREST_LEAF);
-		acceptableTiles.add(Tile.FLOOR_FOREST_NEEDLE);
-		acceptableTiles.add(Tile.FLOOR_FOREST_RAW);
-		acceptableTiles.add(Tile.FLOOR_GRASS_DEEP);
-		acceptableTiles.add(Tile.FLOOR_GRASS_DRY);
-		
-		
+		Point p = randomHeightPoint(150,250);
+
+		ClaySource clay = new ClaySource(p,30);
+		claySources.add(clay);
 		
 	}
 	
@@ -617,14 +624,15 @@ public class GameMap {
 	 */
 	public static ArrayList<Point> getSprinkle(Point center, int range, int density){
 		ArrayList<Point> points = pointsInCircleRange(center, range);
+		ArrayList<Point> sprinklePoints = new ArrayList<Point>();
 		for(Point target : points){
 		int chance = randInt(0,(int)(density));
 			if(chance == 0){
-				points.add(target);
+				sprinklePoints.add(target);
 			}
 
 		}
-		return points;
+		return sprinklePoints;
 	}
 	
 	
