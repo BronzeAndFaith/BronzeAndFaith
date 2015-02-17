@@ -2,7 +2,7 @@ package BronzeAndFaith.Content;
 
 public class Structure {
 
-	private boolean isBlocking;
+	protected boolean isBlocking;
 	public boolean isBlocking() {
 		return isBlocking;
 	}
@@ -41,5 +41,15 @@ public class Structure {
 		this.structureTop = structureImage;
 	}
 
+	@Override
+	public String toString(){
+		String string = "Structure ["+name+"] at ["+x+", "+y+"]";
+		return string;
+	}
+	
+	public void translate(int dx, int dy){
+		setX(x+dx);
+		setY(y+dy);
+	}
 	
 }

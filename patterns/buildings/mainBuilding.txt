@@ -1,0 +1,10 @@
+<PATTERN>
+XXXXXXX
+X.....X
+X.....X
+N.....N
+X.....X
+XXX.XXX
+X.....X
+XXXOXXX
+</PATTERN>

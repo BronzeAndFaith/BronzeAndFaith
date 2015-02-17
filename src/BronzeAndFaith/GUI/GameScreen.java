@@ -1,8 +1,10 @@
 package BronzeAndFaith.GUI;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import BronzeAndFaith.Content.Building;
 import BronzeAndFaith.Content.CreatureBuilder;
 import BronzeAndFaith.Content.Human;
 import BronzeAndFaith.Content.ItemBuilder;
@@ -10,12 +12,16 @@ import BronzeAndFaith.Content.Material;
 import BronzeAndFaith.Content.TreeBuilder;
 import BronzeAndFaith.Game.Main;
 import BronzeAndFaith.Game.World;
+import BronzeAndFaith.Map.BuildingMaterial;
+import BronzeAndFaith.Map.BuildingPlanner;
+import BronzeAndFaith.Map.Village;
 
 
 public class GameScreen implements Screen{
 
 
 	private World world;
+	private BuildingPlanner bPlanner;
 	private CreatureBuilder creatureBuilder;
 	private TreeBuilder treeBuilder;
 	private ItemBuilder itemBuilder;
@@ -30,7 +36,7 @@ public class GameScreen implements Screen{
 	private List<String> messages;
 	
 	public GameScreen(){
-		world = new World(Main.MAPWIDTH, Main.MAPHEIGHT, player);
+		world = World.getInstance(Main.MAPWIDTH, Main.MAPHEIGHT, player);//new World(Main.MAPWIDTH, Main.MAPHEIGHT, player);
 		world.initialize();
 		creatureBuilder = new CreatureBuilder(world);
 		itemBuilder = new ItemBuilder(world);
@@ -38,20 +44,19 @@ public class GameScreen implements Screen{
 		this.messages = new ArrayList<String>();
 		
 		player = creatureBuilder.newPlayerRandomLocation(messages);
-		creatureBuilder.newNPCDummy(8, 5);
-		itemBuilder.newBranch(10, 10, Material.WOOD_MAPLE);
-		itemBuilder.newBranch(11,10, Material.WOOD_MAPLE);
-		itemBuilder.newBranch(12,10, Material.WOOD_MAPLE);
-		itemBuilder.newBranch(13,10, Material.WOOD_MAPLE);
-		itemBuilder.newBranch(14,10, Material.WOOD_MAPLE);
-		itemBuilder.newBranch(15,10, Material.WOOD_MAPLE);
-		itemBuilder.newShirt(4, 4, Material.CLOTH_WOOL);
-		itemBuilder.newKnife(7,7,Material.METAL_COPPER);
-		itemBuilder.newShortSword(3, 3, Material.METAL_BRONZE);
-		itemBuilder.newShortSword(3, 4, Material.WOOD_MAPLE);
-		itemBuilder.newWarHammer(3, 2, Material.METAL_BRONZE);
+		viewPosition(getScrollX(),getScrollY());
+
 				
-		treeBuilder.newOak(6, 6);
+		bPlanner = BuildingPlanner.getInstance(world);
+		//bPlanner.buildAtPoint(new Point(player.x+1,player.y+1), "mainBuilding", BuildingMaterial.ROCK);
+		List<Building> bList = world.buildings();
+		
+		Village v = new Village(new Point(player.x+10, player.y+10), world);
+		v.addMainBuilding();
+		bPlanner.buildInVillage(v, "smallHouse", BuildingMaterial.CLAY);
+		bPlanner.buildInVillage(v, "smallHouse", BuildingMaterial.CLAY);
+		bPlanner.buildInVillage(v, "smallHouse", BuildingMaterial.CLAY);
+
 	}
 	
 	@Override

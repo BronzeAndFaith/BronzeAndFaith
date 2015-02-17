@@ -18,4 +18,5 @@ public final class Definitions {
 	public static final Color SHALLOWWATER = new Color(160,200,210);
 	public static final Color DEEPWATER = new Color(45,85,120);
 	public static final Color WOODFLOOR = new Color(190,175,130);
+	public static final Color WOODWALL = new Color(200,185,140);
 }

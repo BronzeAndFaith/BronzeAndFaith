@@ -34,14 +34,12 @@ public class ClaySource {
 
 	
 	private void createPoints(Point p, int size){
-		System.out.println("Starting ClaySource at " +p.x + ","+p.y);
 		ArrayList<Point> sprinkle = GameMap.getSprinkle(p, size, 2);
 		clayPoints.addAll(sprinkle);
 		
 		for(Point clay:clayPoints){
 			int quality = calcValue(clay, 20);
 			GameMap.setClay(clay.x, clay.y, quality);
-			System.out.println("Clay Quality: " + quality);
 		}
 	}
 	

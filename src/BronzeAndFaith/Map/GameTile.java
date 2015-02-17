@@ -133,6 +133,7 @@ public class GameTile extends Point{
 		int rockIndex = BronzeMath.randInt(220, 229);
 		GameTile tile = new GameTile(x,y,rockIndex,false,Season.SPRING);
 		tileType = Tile.FLOOR_ROCK_SMOOTH;
+		tile.oreMaterial = Material.ROCK;
 		return tile;
 	}
 	
@@ -140,6 +141,7 @@ public class GameTile extends Point{
 		int rockIndex = BronzeMath.randInt(240, 249);
 		GameTile tile = new GameTile(x,y,rockIndex,false,Season.SPRING);
 		tileType = Tile.FLOOR_ROCK_RAW;
+		tile.oreMaterial = Material.ROCK;
 		return tile;
 	}
 	

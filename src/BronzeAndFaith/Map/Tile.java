@@ -24,7 +24,9 @@ public enum Tile {
 	WATER_SHALLOW(15, "shallow water", Definitions.SHALLOWWATER, 'w', true, 3),
 	WATER_DEEP(16, "deep water", Definitions.DEEPWATER, 'W', true, 3),
 	FLOOR_WOOD(17, "wooden floor", Definitions.WOODFLOOR, 'H', false, 0),
-	WATER_RIVER(15, "shallow water", Definitions.SHALLOWWATER, 'w', true, 3);
+	WATER_RIVER(18, "shallow water", Definitions.SHALLOWWATER, 'w', true, 3),
+	STRUCTURE_WOODEN_WALL(19, "wooden wall", Definitions.WOODWALL, 'X', true, 4),
+	STRUCTURE_FLOOR_WOOD(20, "wooden floor", Definitions.WOODFLOOR, 'H', false, 0);
 	
 	public Tile getTile(int flag){
 		for(Tile t :Tile.values()){

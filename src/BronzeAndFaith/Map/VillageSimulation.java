@@ -14,6 +14,9 @@ public class VillageSimulation {
 	}
 	
 	public VillageSimulation(int steps){
+		//get interesting Points
+		//add villages to points
+		
 		for(Village v:villages){
 			int workers = 5;
 			

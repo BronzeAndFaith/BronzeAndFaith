@@ -204,6 +204,9 @@ public class RoguePanel extends JPanel{
 		if(x<Main.MAPWIDTH-1 && x >= 0 && y >= 0 && y<Main.MAPHEIGHT-1){
 			structures[x][y]=structureImage;
 		}
+		else {
+			structures[x][y]=0;
+		}
 		return this;
 	}
 	

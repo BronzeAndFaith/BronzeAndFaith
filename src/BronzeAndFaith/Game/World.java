@@ -1,4 +1,5 @@
 package BronzeAndFaith.Game;
+import BronzeAndFaith.Content.Building;
 import BronzeAndFaith.Content.Creature;
 import BronzeAndFaith.Content.Item;
 import BronzeAndFaith.Content.Structure;
@@ -9,6 +10,13 @@ import java.util.List;
 import java.util.ArrayList;
 public class World {
 
+
+	private static World instance = null;
+	public static World getInstance(int width, int height, Creature player) {
+		if(instance==null)
+			instance = new World(width, height, player);
+		return instance;
+	}
 
 	
 	private int width, height;
@@ -31,14 +39,18 @@ public class World {
 	private List<Structure> structures;
 	public List<Structure> structures(){return structures;}
 	
+	private List<Building> buildings;
+	public List<Building> buildings(){return buildings;}
+	
 	private List<Chunk> loadedChunks;
 	public List<Chunk> loadedChunks(){return loadedChunks;}
 	
 
-	public World(int width, int height, Creature player){
+	private World(int width, int height, Creature player){
 		creatures = new ArrayList<Creature>();
 		items = new ArrayList<Item>();
 		structures = new ArrayList<Structure>();
+		buildings = new ArrayList<Building>();
 		this.width = width;
 		this.height = height;
 		this.player = player;
@@ -122,6 +134,14 @@ public class World {
 	public void addStructure(Structure structure){
 		structures.add(structure);
 	}
+	public void addStructure(List<Structure> structures){
+		for (Structure s:structures)
+			addStructure(s);
+	}
+	
+	public void addBuilding(Building building){
+		buildings.add(building);
+	}
 
 	
 	public void remove(Creature creature){
@@ -134,6 +154,10 @@ public class World {
 	
 	public void remove(Structure structure){
 		structures.remove(structure);
+	}
+	
+	public void remove(Building building){
+		buildings.remove(building);
 	}
 	
 	public void addItem(Item item, int x, int y){
@@ -241,6 +265,30 @@ public class World {
 		}
 		return false;
 	}
+	
+	/**
+	 * Remove all Points from the selection that are blocked or have water
+	 **/
+	public List<Point> selectUnObstructed(List<Point> selection){
+		List<Point> unobstructed = new ArrayList<Point>();
+		for(Point p: selection){
+			if(!isBlocked(p.x, p.y)){
+				unobstructed.add(p);
+			}
+		}
+		return unobstructed;
+	}
+	
+	public List<Point> selectObstructed(List<Point> selection){
+		List<Point> obstructed = new ArrayList<Point>();
+		for(Point p: selection){
+			if(isBlocked(p.x, p.y)){
+				obstructed.add(p);
+			}
+		}
+		return obstructed;
+	}
+	
 	
 
 }

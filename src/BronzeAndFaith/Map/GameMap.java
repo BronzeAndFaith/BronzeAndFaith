@@ -133,10 +133,10 @@ public class GameMap {
 		mapNoise();
 		drawTerrain();
 		cleanTerrain();
-		for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
-		for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
-		for(int i = 0; i<CLAY_COUNT;i++) {createClay();}
-		for(int i = 0; i<COPPER_COUNT;i++) {createCopperOre();}
+		//for(int i = 0; i<RIVER_COUNT;i++) {createRiver();}
+		//for(int i = 0; i<SWAMP_COUNT;i++) {createSwamp();}
+		//for(int i = 0; i<CLAY_COUNT;i++) {createClay();}
+		//for(int i = 0; i<COPPER_COUNT;i++) {createCopperOre();}
 		//ResourceDevelopmentChecker rdc = new ResourceDevelopmentChecker(0,0,10);
 		//goodSpots = rdc.bestPoints(400, 60);
 		
@@ -186,7 +186,12 @@ public class GameMap {
 	
 	public static int getGameTileIndex(int x, int y){
 		GameTile t = getGameTile(x,y);
-		return t.getImageIndex();
+		int i = 0;
+		if(t != null)
+			i = t.getImageIndex();
+		
+		return i;
+		
 	}
 	
 	/**
@@ -542,9 +547,9 @@ public class GameMap {
 		v3 = randInt(int_x, int_y + 1);
 		v4 = randInt(int_x + 1, int_y + 1);
 
-		t1 = linear(v1, v2, rem_x);
-		t2 = linear(v3, v4, rem_x);
-		return (linear(t1, t2, rem_y));
+		t1 = BronzeMath.linear(v1, v2, rem_x);
+		t2 = BronzeMath.linear(v3, v4, rem_x);
+		return (BronzeMath.linear(t1, t2, rem_y));
 
 	}
 
@@ -1149,15 +1154,8 @@ public class GameMap {
 		
 	}
 
-	public float cosine(float x1, float x2, float a) {
-		double temp;
-		temp = (1.0f - Math.cos(a * (float) Math.PI)) / 2.0f;
-		return (float) (x1 * (1.0f - temp) + x2 * temp);
-	}
 
-	float linear(float x1, float x2, float a) {
-		return (x1 * (1 - a) + x2 * a);
-	}
+
 
 	private static float general_skew = (((float) Math.sqrt(3.0f) - 1.0f) * 0.5f);
 

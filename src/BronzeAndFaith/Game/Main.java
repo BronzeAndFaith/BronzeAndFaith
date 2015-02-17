@@ -16,6 +16,7 @@ import BronzeAndFaith.GUI.GameScreen;
 import BronzeAndFaith.GUI.RoguePanel;
 import BronzeAndFaith.GUI.Screen;
 import BronzeAndFaith.GUI.ScreenManager;
+import BronzeAndFaith.Map.BuildingPattern;
 
 public class Main extends JFrame implements KeyListener {
 
@@ -53,8 +54,6 @@ public class Main extends JFrame implements KeyListener {
 		add(roguepanel);
 		screen = new GameScreen();
 		repaint();
-		
-		
 	}
 	
 	public static void main(String[] args){
