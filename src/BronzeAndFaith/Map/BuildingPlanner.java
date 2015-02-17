@@ -64,7 +64,7 @@ public class BuildingPlanner {
 	
 	private int counter = 0;
 	public void buildInVillage(Village village, String name, BuildingMaterial buildMat){
-
+		counter = 0;
 		BuildingPattern pattern = new BuildingPattern(name, buildMat);
 		int range = village.range;
 		List<Building> otherBuildings = village.getBuildings();

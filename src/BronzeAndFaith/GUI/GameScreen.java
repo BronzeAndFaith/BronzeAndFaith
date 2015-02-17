@@ -53,7 +53,8 @@ public class GameScreen implements Screen{
 		
 		Village v = new Village(new Point(player.x+10, player.y+10), world);
 		v.addMainBuilding();
-		bPlanner.buildInVillage(v, "smallHouse", BuildingMaterial.CLAY);
+		bPlanner.buildInVillage(v, "farmingHut", BuildingMaterial.WOOD_AND_CLAY);
+
 		bPlanner.buildInVillage(v, "smallHouse", BuildingMaterial.CLAY);
 		bPlanner.buildInVillage(v, "smallHouse", BuildingMaterial.CLAY);
 

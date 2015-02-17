@@ -1,0 +1,9 @@
+<PATTERN>
+XXXXXXXXX
+X...X...X
+X...X...X
+X.......X
+X.......X
+X.......X
+XXXXOXXXX
+</PATTERN>
